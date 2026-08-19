@@ -18,6 +18,10 @@
 #define NIFACE "org.freedesktop.Notifications"
 #define NPATH  "/org/freedesktop/Notifications"
 
+#ifndef HND_VERSION
+#define HND_VERSION "dev"
+#endif
+
 enum { Low, Normal, Critical };            /* urgency */
 enum { ColBg, ColSum, ColBody, ColBorder };
 enum { Expired = 1, Dismissed = 2, Closed = 3 }; /* NotificationClosed reasons */
@@ -799,8 +803,11 @@ main(int argc, char *argv[])
 			minwidth = (unsigned int)atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-W") && i + 1 < argc)
 			maxwpct = (unsigned int)atoi(argv[++i]);
-		else
-			die("usage: hnd [-w minwidth] [-W maxwidthpct]\n");
+		else if (!strcmp(argv[i], "-v")) {
+			printf("hnd %s\n", HND_VERSION);
+			return 0;
+		} else
+			die("usage: hnd [-v] [-w minwidth] [-W maxwidthpct]\n");
 	}
 	if (!minwidth || maxwpct < 1 || maxwpct > 100)
 		die("hnd: bad width option\n");
