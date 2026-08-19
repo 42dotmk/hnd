@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-hnd is a single-file X11 notification daemon (`hnd.c`): it owns `org.freedesktop.Notifications` on the D-Bus session bus (exits if another daemon does) and shows each notification as an override-redirect popup stacked down a screen corner. Text only — icons and body markup are deliberately ignored (markup is stripped, entities decoded). Suckless-style: configuration is the block of `static` values at the top of `hnd.c`, not a config file — changing settings means editing those and recompiling. The only runtime overrides are the dmenu-style width flags `-w <px>` (minimum width) and `-W <pct>` (maximum width as a percent of the monitor, default 50); anything else stays compiled in.
+hnd is a single-file X11 notification daemon (`hnd.c`): it owns `org.freedesktop.Notifications` on the D-Bus session bus (exits if another daemon does) and shows each notification as an override-redirect popup stacked down a screen corner. Text only — icons and body markup are deliberately ignored (markup is stripped, entities decoded). Suckless-style: configuration is the block of `static` values in `config.h` (included by `hnd.c`), not a runtime config file — changing settings means editing those and recompiling. The only runtime overrides are the dmenu-style width flags `-w <px>` (minimum width) and `-W <pct>` (maximum width as a percent of the monitor, default 50); anything else stays compiled in.
 
 A user D-Bus service file (`~/.local/share/dbus-1/services/org.freedesktop.Notifications.service`, pointing at `~/.local/bin/hnd`) makes the bus auto-start hnd on demand, shadowing the system dunst/xfce4-notifyd activation files.
 
@@ -16,7 +16,7 @@ make install    # symlinks it into ~/.local/bin
 make clean
 ```
 
-There are no tests or lint targets; the compiler flags (`-std=c99 -pedantic -Wall -Wextra`) are the lint. Keep the build warning-free.
+There are no tests or lint targets; the compiler flags (`-std=c11 -pedantic -Wall -Wextra`) are the lint. Keep the build warning-free.
 
 `vendor/stb_ds.h` provides the dynamic array (`arrput`/`arrdel`/`arrlen`) used for the notification list; libdbus-1 is used directly (low-level API, no GLib).
 
@@ -35,4 +35,4 @@ Everything lives in `hnd.c`, structured as:
 
 ## Style
 
-Follows suckless/OpenBSD C style like htray: C99, tabs, return type on its own line, no dynamic allocation beyond stb_ds, fixed-size buffers with `snprintf`/`memcpy`. Match it.
+Follows suckless/OpenBSD C style like htray: C11, tabs, return type on its own line, no dynamic allocation beyond stb_ds, fixed-size buffers with `snprintf`/`memcpy`. Match it.
