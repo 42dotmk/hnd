@@ -35,4 +35,4 @@ Everything lives in `hnd.c`, structured as:
 
 ## Style
 
-Follows suckless/OpenBSD C style like htray: C11, tabs, return type on its own line, no dynamic allocation beyond stb_ds, fixed-size buffers with `snprintf`/`memcpy`. Match it.
+Suckless/OpenBSD C conventions like htray — C11, no dynamic allocation beyond stb_ds, fixed-size buffers with `snprintf`/`memcpy` — formatted by clang-format via the repo's `.clang-format` (shared across the siblings: 4-space indent, attached braces, 80 columns). Run `clang-format -i` on files you touch.
